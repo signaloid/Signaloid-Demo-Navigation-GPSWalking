@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uncertain.h>
+#include <uxhw.h>
 #include <unistd.h>
 
 #define EARTH_RADIUS			6371000 /* metres */
@@ -220,12 +220,12 @@ main(int argc, char *argv[])
 
 			if (mode != kBenchmarkModesDirectComputation)
 			{
-				gpsStartLatDistr = libUncertainDoubleDistFromSamples(gpsLatSamples, numOfSamplesPerDistribution);
-				gpsStartLonDistr = libUncertainDoubleDistFromSamples(gpsLonSamples, numOfSamplesPerDistribution);
+				gpsStartLatDistr = UxHwDoubleDistFromSamples(gpsLatSamples, numOfSamplesPerDistribution);
+				gpsStartLonDistr = UxHwDoubleDistFromSamples(gpsLonSamples, numOfSamplesPerDistribution);
 
 				if (kBenchmarkUseAltitudeInSpeedEstimation)
 				{
-					gpsStartAltDistr = libUncertainDoubleDistFromSamples(gpsAltSamples, numOfSamplesPerDistribution);
+					gpsStartAltDistr = UxHwDoubleDistFromSamples(gpsAltSamples, numOfSamplesPerDistribution);
 				}
 			}
 			else
@@ -310,11 +310,11 @@ main(int argc, char *argv[])
 
 			if (mode != kBenchmarkModesDirectComputation)
 			{
-				gpsFinishLatDistr = libUncertainDoubleDistFromSamples(gpsLatSamples, numOfSamplesPerDistribution);
-				gpsFinishLonDistr = libUncertainDoubleDistFromSamples(gpsLonSamples, numOfSamplesPerDistribution);
+				gpsFinishLatDistr = UxHwDoubleDistFromSamples(gpsLatSamples, numOfSamplesPerDistribution);
+				gpsFinishLonDistr = UxHwDoubleDistFromSamples(gpsLonSamples, numOfSamplesPerDistribution);
 				if (kBenchmarkUseAltitudeInSpeedEstimation)
 				{
-					gpsFinishAltDistr = libUncertainDoubleDistFromSamples(gpsAltSamples, numOfSamplesPerDistribution);
+					gpsFinishAltDistr = UxHwDoubleDistFromSamples(gpsAltSamples, numOfSamplesPerDistribution);
 				}
 			}
 			else
@@ -399,22 +399,22 @@ main(int argc, char *argv[])
 			if (!kBenchmarkUseAltitudeInSpeedEstimation)
 			{
 				gpsCalcSpeedParticle = calcDistanceUsingGPSCoordinatesWithoutAltitude(
-									libUncertainDoubleNthMode(gpsStartLatDistr, 1),
-									libUncertainDoubleNthMode(gpsStartLonDistr, 1),
-									libUncertainDoubleNthMode(gpsFinishLatDistr, 1),
-									libUncertainDoubleNthMode(gpsFinishLonDistr, 1)
+									UxHwDoubleNthMode(gpsStartLatDistr, 1),
+									UxHwDoubleNthMode(gpsStartLonDistr, 1),
+									UxHwDoubleNthMode(gpsFinishLatDistr, 1),
+									UxHwDoubleNthMode(gpsFinishLonDistr, 1)
 								) / deltaTimeStamp;
 				printf("Position %d: Speed estimation using mean values (w/o altitude): %f deltaTimeStamp: %f\n\n", positionsCnt, gpsCalcSpeedParticle, deltaTimeStamp);
 			}
 			else
 			{
 				gpsCalcSpeedParticle = calcDistanceUsingGPSCoordinates(
-									libUncertainDoubleNthMode(gpsStartLatDistr, 1),
-									libUncertainDoubleNthMode(gpsStartLonDistr, 1),
-									libUncertainDoubleNthMode(gpsStartAltDistr, 1),
-									libUncertainDoubleNthMode(gpsFinishLatDistr, 1),
-									libUncertainDoubleNthMode(gpsFinishLonDistr, 1),
-									libUncertainDoubleNthMode(gpsFinishAltDistr, 1)
+									UxHwDoubleNthMode(gpsStartLatDistr, 1),
+									UxHwDoubleNthMode(gpsStartLonDistr, 1),
+									UxHwDoubleNthMode(gpsStartAltDistr, 1),
+									UxHwDoubleNthMode(gpsFinishLatDistr, 1),
+									UxHwDoubleNthMode(gpsFinishLonDistr, 1),
+									UxHwDoubleNthMode(gpsFinishAltDistr, 1)
 								) / deltaTimeStamp;
 				printf("Position %d: Speed estimation using mean values (with altitude): %f deltaTimeStamp: %f\n\n", positionsCnt, gpsCalcSpeedParticle, deltaTimeStamp);
 			}
